@@ -1,3 +1,7 @@
+#!/bin/bash
+# Author: James Campbell
+# Date: August 2016
+# What: installs IRSSI IRC chat client with OTR plugin working properly on Ubuntu 16
 mkdir ~/Downloads
 cd ~/Downloads
 wget https://otr.cypherpunks.ca/libotr-4.1.1.tar.gz
