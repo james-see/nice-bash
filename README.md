@@ -30,3 +30,7 @@ all of these tested and working on Ubuntu 16
 * aria2 - aria2 is a download manager. this installs and sets up the web gui for it
 
 * [irssi](https://irssi.org) with otr - irssi is the premier command line irc client. this ensures that OTR functionality works
+
+### hide
+
+* mac-mask - mask your mac address on Apple computers running OSX using [SpoofMac](https://github.com/feross/SpoofMAC)
