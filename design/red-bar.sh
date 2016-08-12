@@ -1,1 +1,14 @@
-echo -e "\e[1;31m============This is red bar============\e[0m"
+printf "\033[1;31m============ This is red bar ============\033[0m";
+echo "";
+printf "\033[1;32m=========== This is green bar ===========\033[0m";
+echo "";
+printf "\033[1;33m=========== This is orange bar ==========\033[0m";
+echo "";
+printf "\033[1;34m============ This is blue bar ===========\033[0m";
+echo "";
+printf "\033[1;35m=========== This is purple bar ==========\033[0m";
+echo "";
+printf "\033[1;36m========= This is light blue bar ========\033[0m";
+echo "";
+printf "\033[1;37m=========== This is white bar ===========\033[0m";
+echo "";
