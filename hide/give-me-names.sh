@@ -1,5 +1,5 @@
 #!/bin/bash
-read -n1 -p "New real name or username? [r,u]" doit 
+read -n1 -p "New real name or username? [r,u]: " doit 
 case $doit in  
   r|R|1) telnet koeln.ccc.de ;;
   u|U|2) telnet koeln.ccc.de 31337 ;; 
