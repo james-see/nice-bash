@@ -36,6 +36,7 @@ all of these tested and working on Ubuntu 16
 
 * mac-mask - install spoofmask and runs on every restart to spoof your mac address on Apple computers running OSX using [SpoofMac](https://github.com/feross/SpoofMAC)
 * change-mac-address - quickly change your mac address for your wifi adapter (OSX required), run as sudo
+* give-me-names - get either usernames or a real name for fun & profit
 
 ### design
 
