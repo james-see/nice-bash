@@ -4,5 +4,5 @@ clear
 echo "+++==== Here is your brand new business name: ====+++"
 echo ""
 echo ""
-curl nsanamegenerator.com | grep body | sed -n 2p | sed 's|["<\/body>",]||g'
+curl -s nsanamegenerator.com | grep body | sed -n 2p | sed 's|["<\/body>",]||g'
 echo ""
