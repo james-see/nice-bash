@@ -6,6 +6,8 @@ echo " ) _)  )   //    \\___ \ ) _)   / \/ \ ) _) ";
 echo "(____)(__\_)\_/\_/(____/(____)  \_)(_/(____)";
 echo ""
 read -n1 -p "Linux, OSX, or Windows? [l,o,w]: " doit 
+echo "you picked $doit, wiping $1 now."
+echo "this may take awhile depending on how crappy your computer is..."
 case $doit in  
   l|L|1) shred -f -u -n 7 $1 ;;
   o|O|2) srm -f -z --medium $1 ;; 
