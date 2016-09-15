@@ -43,3 +43,8 @@ all of these tested and working on Ubuntu 16
 
 * red-bar - how to print colors in bash, red, yellow, blue, green, light blue, white colors
 
+### secure
+
+* passme - generate a new 64 string password using /dev/urandom (tested on OSX)
+
+
