@@ -9,6 +9,7 @@ echo "(____)(__\_)\_/\_/(____/(____)  \_)(_/(____)";
 echo ""
 echo ""
 read -n1 -p "Linux, OSX, or Windows? [l,o,w]: " doit 
+echo "\n";
 echo "you picked $doit, wiping $1 now."
 echo "this may take awhile depending on how crappy your computer is..."
 case $doit in  
@@ -31,4 +32,5 @@ done
 echo ""
 echo "All done wiping the file." 
 echo "'People are deceived in masses, but enlightened one at a time. - Dick Boddie'"
+echo "";
 echo
