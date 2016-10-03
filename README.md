@@ -47,4 +47,8 @@ all of these tested and working on Ubuntu 16 or OSX if noted in script itself.
 
 * passme - generate a new 64 string password using /dev/urandom (tested on OSX)
 
+### sysadmin
+
+* startmysql - checks if mysql running as a service and if not starts it (great for crontab check once an hour for low-resource VPS's that tend to crash out mysql randomly)
+
 
