@@ -12,7 +12,7 @@
 
 my fav collection of useful, fun, weird bash scripts. enjoy.
 
-all of these tested and working on Ubuntu 16
+all of these tested and working on Ubuntu 16 or OSX if noted in script itself.
 
 # folders
 
