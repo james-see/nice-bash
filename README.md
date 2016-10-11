@@ -12,7 +12,7 @@
 
 my fav collection of useful, fun, weird bash scripts. enjoy.
 
-all of these tested and working on Ubuntu 16
+all of these tested and working on Ubuntu 16 or OSX if noted in script itself.
 
 # folders
 
@@ -37,8 +37,18 @@ all of these tested and working on Ubuntu 16
 * mac-mask - install spoofmask and runs on every restart to spoof your mac address on Apple computers running OSX using [SpoofMac](https://github.com/feross/SpoofMAC)
 * change-mac-address - quickly change your mac address for your wifi adapter (OSX required), run as sudo
 * give-me-names - get either usernames or a real name for fun & profit
+* eraseme - securely erases (shreds) any file you put in front of it regardless of OS
 
 ### design
 
 * red-bar - how to print colors in bash, red, yellow, blue, green, light blue, white colors
+
+### secure
+
+* passme - generate a new 64 string password using /dev/urandom (tested on OSX)
+
+### sysadmin
+
+* startmysql - checks if mysql running as a service and if not starts it (great for crontab check once an hour for low-resource VPS's that tend to crash out mysql randomly)
+
 
