@@ -51,5 +51,5 @@ all of these tested and working on Ubuntu 16 or OSX if noted in script itself.
 
 * startmysql - checks if mysql running as a service and if not starts it (great for crontab check once an hour for low-resource VPS's that tend to crash out mysql randomly)
 
-* findthefat - finds all files larger than a minimum GB you set (defaults to 1GB).
+* findthefat - finds all files larger than a minimum GB you set (defaults to 1GB, tested on OSX).
 
