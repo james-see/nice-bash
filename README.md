@@ -25,6 +25,7 @@ all of these tested and working on Ubuntu 16 or OSX if noted in script itself.
 * wholook - do a whois and nslookup in one command, example `./wholook.sh jamescampbell.us`
 * gpg me - lookup an email for a public key, example `./gpgme.sh james@jamescampbell.us`
 * get-macs - get all mac addresses on curently connect LAN or WLAN (can do > out.html)
+* scan-network - get info about current network, example './scan-network.sh en0'
 
 ### installers
 
