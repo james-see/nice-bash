@@ -9,7 +9,8 @@ totaldef=1
 total="${total:-${totaldef}}"
 for i in `eval echo {1..$total}`
 do
-        curl -s nsanamegenerator.com | grep body | sed -n 2p | sed 's|["<\/body>",]||g'
+        #curl -s https://ternus.github.io/nsaproductgenerator/ | grep '<div id="name">'
+        curl -s https://uinames.com/ | grep -o '<h1>[^>]*</h1>'
 done
 echo ""
 echo ""
