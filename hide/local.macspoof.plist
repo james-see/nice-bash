@@ -7,7 +7,7 @@
 
 	    <key>ProgramArguments</key>
 	    <array>
-            <string>/usr/local/bin/spoof-mac.py</string>
+            <string></string>
 	        <string>randomize</string>
 	        <string>en0</string>
 	    </array>
