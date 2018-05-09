@@ -7,6 +7,7 @@
 GREEN='\033[1;32m'
 CYAN='\033[1;36m'
 NC='\033[0m'
+command -v spoof >/dev/null 2>&1 || { echo >&2 "I require spoof but it's not installed. On OSX, install via brew install node then npm install spoof -g."; exit 1; }
 printf "\n${GREEN}Current devices and mac addresses...${NC}\n\n"
 spoof list | grep -o "currently set to.*"
 printf "\nRandomizing wifi by running ${CYAN}sudo spoof randomize en0${NC}...\n"
