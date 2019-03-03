@@ -27,6 +27,7 @@ if brew cask ls --versions corelocationcli > /dev/null; then
   sleep 2
 else
   # The package is not installed
+  brew tap homebrew/cask # make sure cask installed
   brew cask install corelocationcli
 fi
 ./CoreLocationCLI -json > location.log
