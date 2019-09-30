@@ -1,0 +1,3424 @@
+
+[[_securityscheme]]
+== Security
+
+[[_jwt]]
+=== jwt
+[%hardbreaks]
+__Type__ : apiKey
+__Name__ : Authorization
+__In__ : HEADER
+
+
+
+
+[[_paths]]
+== Paths
+
+[[_post_login_resource]]
+=== POST /auth/login
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Body**|**body** +
+__required__|<<_post_login_resource_body,body>>
+|===
+
+[[_post_login_resource_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**password** +
+__required__|Password|string
+|**username** +
+__required__|Username|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* auth
+
+
+[[_delete_logout_resource]]
+=== DELETE /auth/logout
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* auth
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_cases_query]]
+=== Get all cases in the system that the calling user has view permissions for
+....
+GET /cases
+....
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_casedescription,CaseDescription>> > array
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_single_case_query]]
+=== Get metrics
+....
+GET /cases/{case}
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_casedescription,CaseDescription>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_concept_context]]
+=== Get context sentences and spans for the specified concept label
+....
+POST /cases/{case}/concept
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^9a,.^4a"]
+|===
+|Type|Name|Description|Schema
+|**Path**|**case** +
+__required__||string
+|**Query**|**key** +
+__required__|Concept label used as key to look up concept context.|string
+|**Query**|**num_contexts** +
+__optional__|Number of context sentences to return.|integer (int32)
+|**Query**|**order_by** +
+__optional__|Sort method for sentences, one of "random", "length" or None (unsorted).|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_conceptcontextresponse,ConceptContextResponse>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_put_configure_case]]
+=== PUT /cases/{case}/configure
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_casedescription,CaseDescription>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_configure_datascope]]
+=== Configure the datascope
+....
+POST /cases/{case}/configure/datascope
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_configure_datascope_body,body>>
+|===
+
+[[_post_configure_datascope_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**date_from** +
+__required__|Minimum date to filter by|string (date-time)
+|**date_to** +
+__required__|Maximal date to filter by|string (date-time)
+|**exclude_docs_with_no_dates** +
+__required__|Exclude documents with no date|boolean
+|**exclude_nonrep_exact_dups** +
+__required__|Exclude non-representative exact dups|boolean
+|**exclude_nonrep_near_dups** +
+__required__|Exclude non-representative near dups|boolean
+|**exclude_nonrep_super_threads** +
+__required__|Exclude non-representative noninclusive threads|boolean
+|**near_dup_threshold** +
+__required__|Threshold for near duplicates|number (float)
+|**show_excluded_docs_in_family_view** +
+__required__|Show excluded documents in the document family viewer|boolean
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_datascopeparameters,DatascopeParameters>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_configure_datascope]]
+=== Get the currently configured datascope
+....
+GET /cases/{case}/configure/datascope
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_datascopeparameters,DatascopeParameters>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_persistent_highlights]]
+=== Create or update highlight categories
+....
+POST /cases/{case}/configure/highlights
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|< <<_post_persistent_highlights_body,body>> > array
+|===
+
+[[_post_persistent_highlights_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**category_id** +
+__optional__|Category Id for the highlight category.|integer (int32)
+|**category_name** +
+__optional__|Category name for the highlight category.|string
+|**color** +
+__optional__|Hex 6 color for the highlight category.|string
+|**terms** +
+__optional__|List of terms to be highlighted for the category.|< string > array
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_highlightcategory,HighlightCategory>> > array
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_persistent_highlights]]
+=== Get the highlight categories
+....
+GET /cases/{case}/configure/highlights
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_highlightcategory,HighlightCategory>> > array
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_configure_model]]
+=== Configure a new model
+....
+POST /cases/{case}/configure/models
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_configure_model_body,body>>
+|===
+
+[[_post_configure_model_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**exploit_param** +
+__optional__|The numerator to be used for SAL ratio for exploit|integer (int32)
+|**is_archived** +
+__optional__|Whether the model has been archived|boolean
+|**is_primary** +
+__optional__|Whether the model should be the primary model|boolean
+|**is_shared** +
+__optional__|Whether the model is shared with the whole organization|boolean
+|**label** +
+__required__|The tag_category.display_text|string
+|**negative_tag_label** +
+__optional__|The label for the negative tag|string
+|**original_case_id** +
+__optional__|If the model used a baseline model, the case id of the original model|string
+|**original_model_id** +
+__optional__|If the model used a baseline model, the model id of the original model|integer (int32)
+|**positive_tag_label** +
+__optional__|The label for the positive tag|string
+|**random_param** +
+__optional__|The numerator to be used for SAL ratio for random|integer (int32)
+|**threshold_param** +
+__optional__|The numerator to be used for SAL ratio for threshold|integer (int32)
+|**training_strategy** +
+__optional__|CAL or SAL training strategy|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_casedescription,CaseDescription>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_put_configure_model]]
+=== PUT /cases/{case}/configure/models
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_casedescription,CaseDescription>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_put_configure_model_update]]
+=== Update an existing model
+....
+PUT /cases/{case}/configure/models/{model_id}
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Path**|**model_id** +
+__required__|integer
+|**Body**|**body** +
+__required__|<<_put_configure_model_update_body,body>>
+|===
+
+[[_put_configure_model_update_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**exploit_param** +
+__optional__|The numerator to be used for SAL ratio for exploit|integer (int32)
+|**is_archived** +
+__optional__|Whether the model is to be archived|boolean
+|**is_primary** +
+__optional__|Whether the model should be the primary model|boolean
+|**is_shared** +
+__optional__|Whether the model is shared with the whole organization|boolean
+|**label** +
+__optional__|The tag_category.display_text|string
+|**negative_tag_label** +
+__optional__|The label for the negative tag|string
+|**positive_tag_label** +
+__optional__|The label for the positive tag|string
+|**random_param** +
+__optional__|The numerator to be used for SAL ratio for random|integer (int32)
+|**threshold_param** +
+__optional__|The numerator to be used for SAL ratio for threshold|integer (int32)
+|**training_strategy** +
+__optional__||string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_casedescription,CaseDescription>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_delete_configure_model_update]]
+=== Archive an existing model
+....
+DELETE /cases/{case}/configure/models/{model_id}
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Path**|**model_id** +
+__required__|integer
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_casedescription,CaseDescription>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_configure_training]]
+=== Configure the case (SAL vs CAL), richness set size, and which annotation category to use
+....
+POST /cases/{case}/configure/training
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_configure_training_body,body>>
+|===
+
+[[_post_configure_training_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**confidence_goal** +
+__optional__|Confidence level for estimated richness|number (float)
+|**minimum_richness_size** +
+__optional__|Number of documents for the richness set|integer (int32)
+|**moe_goal** +
+__optional__|Margin of error used for estimated richness|number (float)
+|**training_strategy** +
+__required__|Is the case configured to use a SAL training system|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_casedescription,CaseDescription>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_date_ranges_resource]]
+=== Get the filter aggregations for a set of search parameters
+....
+POST /cases/{case}/date_ranges
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_date_ranges_resource_body,body>>
+|===
+
+[[_post_date_ranges_resource_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**aggregations** +
+__optional__||< <<_cases_case_date_ranges_post_aggregations,aggregations>> > array
+|**date_field** +
+__optional__|Name of the field to be used for date|string
+|**date_from** +
+__optional__|The start date for the search, should be in the form '%Y-%m-%d %H:%M:%S'|string
+|**date_to** +
+__optional__|The end date for the search, should be in the form '%Y-%m-%d %H:%M:%S'|string
+|**filters** +
+__optional__||< <<_cases_case_date_ranges_post_filters,filters>> > array
+|**query_string** +
+__optional__|The query string to search|string
+|**tags** +
+__optional__||object
+|===
+
+[[_cases_case_date_ranges_post_aggregations]]
+**aggregations**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**config** +
+__optional__|<<_cases_case_date_ranges_post_aggregations_config,config>>
+|**field_name** +
+__optional__|string
+|===
+
+[[_cases_case_date_ranges_post_aggregations_config]]
+**config**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**has_next_page** +
+__optional__|boolean
+|**page** +
+__required__|integer (int32)
+|**page_size** +
+__required__|integer (int32)
+|**search** +
+__required__|string
+|**sort** +
+__required__|string
+|**sort_direction** +
+__required__|string
+|===
+
+[[_cases_case_date_ranges_post_filters]]
+**filters**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**field_name** +
+__optional__|string
+|**filters** +
+__optional__|< string > array
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_dateranges,DateRanges>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_documents_query]]
+=== Return one or more documents matching requested ids
+....
+POST /cases/{case}/documents
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_documents_query_body,body>>
+|===
+
+[[_post_documents_query_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**ids** +
+__optional__|List of fileindices to tag.|< integer (int32) > array
+|**is_archived** +
+__optional__|Indication if the tag should be archived|boolean
+|**location** +
+__optional__|The location/mode the tag was added from.|string
+|**message_index** +
+__optional__|Index of message for granular tagging.|integer (int32)
+|**query_string** +
+__optional__|Optional text to allow for highlighting.|string
+|**span_end** +
+__optional__|End span in message for granular tagging.|integer (int32)
+|**span_start** +
+__optional__|Start span in message for granular tagging.|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_documentresult,DocumentResult>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_downloads_request]]
+=== Returns the text/preview/native URLs for each of the requested documents
+....
+POST /cases/{case}/documents/downloads
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_downloads_request_body,body>>
+|===
+
+[[_post_downloads_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**ids** +
+__optional__|List of fileindices to get downloads for.|< integer (int32) > array
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_downloadurls,DownloadURLs>> > array
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_preview_resource]]
+=== POST /cases/{case}/documents/previews
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_preview_resource_body,body>>
+|===
+
+[[_post_preview_resource_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**ids** +
+__optional__|List of fileindices to get downloads for.|< integer (int32) > array
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_previewresult,PreviewResult>> > array
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_search_request]]
+=== Search for and return one or more documents
+....
+POST /cases/{case}/documents/search
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_search_request_body,body>>
+|===
+
+[[_post_search_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**attachments** +
+__optional__|The list of attachments to filter the search; e.g. Adobe Acrobat(PDF), etc.|< string > array
+|**author** +
+__optional__|Filter search by document authors.|< string > array
+|**communications** +
+__optional__|Filter search to include the communication types; e.g. bulk email, person toperson emails, external emails.|< string > array
+|**concepts** +
+__optional__|The list of concepts to filter the search, e.g. `topics`|< string > array
+|**custodians** +
+__optional__|Filter search by custodians.|< string > array
+|**date_field** +
+__optional__|Name of the field to be used for date|string
+|**date_from** +
+__optional__|The text date range to restrict from; (matches on create_date).|string
+|**date_to** +
+__optional__|The text date range to restrict to; (matches on create_date).|string
+|**document_category** +
+__optional__|The list of document category|< string > array
+|**document_types** +
+__optional__|The list of document category|< string > array
+|**email_domains** +
+__optional__|Filter search by email domains.|< string > array
+|**file_extension** +
+__optional__|Filter search by file extensions.|< string > array
+|**filename** +
+__optional__|The filename.|string
+|**image_concepts** +
+__optional__|The list of image_concepts to filter the search, e.g. `topics`|< string > array
+|**languages** +
+__optional__|The list of languages to include in the search, e.g. en, es, zh.|< string > array
+|**loadfileindices** +
+__optional__|The unique id of the document; NOTE: not docid!|< integer (int32) > array
+|**locations** +
+__optional__|The list of location to filter the search on, e.g. `Yemen`|< string > array
+|**media_annotations** +
+__optional__|The list of media_annotations to include in the search.|< string > array
+|**page** +
+__optional__|The page of search results to return.|integer (int32)
+|**page_size** +
+__optional__|The number of results to paginate.|integer (int32)
+|**phone_numbers** +
+__optional__|The list of phone_numbers to include in the search.|< string > array
+|**query_id** +
+__optional__|The UUID of a prior query to paginate.|string
+|**query_string** +
+__optional__|Filter search matching in body and subject.|string
+|**recipients** +
+__optional__|Filter search by to emails.|< string > array
+|**safe_search** +
+__optional__|The list of safe_search tags to include in the search.|< string > array
+|**senders** +
+__optional__|Filter search by from emails.|< string > array
+|**sort_field** +
+__optional__|The field to sort by.|string
+|**sort_field_asc** +
+__optional__|Sort ascending if true, else descending.|boolean
+|**subject** +
+__optional__|Filter search using this subject.|string
+|**tags** +
+__optional__||object
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_searchresults,SearchResults>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_put_tag_request]]
+=== Tag one or more documents
+....
+PUT /cases/{case}/documents/tags/{tag_id}
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Path**|**tag_id** +
+__required__|integer
+|**Body**|**body** +
+__required__|<<_put_tag_request_body,body>>
+|===
+
+[[_put_tag_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**ids** +
+__optional__|List of fileindices to tag.|< integer (int32) > array
+|**is_archived** +
+__optional__|Indication if the tag should be archived|boolean
+|**location** +
+__optional__|The location/mode the tag was added from.|string
+|**message_index** +
+__optional__|Index of message for granular tagging.|integer (int32)
+|**query_string** +
+__optional__|Optional text to allow for highlighting.|string
+|**span_end** +
+__optional__|End span in message for granular tagging.|integer (int32)
+|**span_start** +
+__optional__|Start span in message for granular tagging.|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_tagresponse,TagResponse>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_training_enquiry]]
+=== Get documents for training
+....
+POST /cases/{case}/documents/training
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_training_enquiry_body,body>>
+|===
+
+[[_post_training_enquiry_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**model_ids** +
+__required__|List of model ids to focus on|< integer (int32) > array
+|**page_size** +
+__optional__|The number of documents to return|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_document,Document>> > array
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_download_zipball_request]]
+=== Generates a ZIP archive with all the documents relevant to the
+....
+GET /cases/{case}/download/zipball
+....
+
+
+==== Description
+`ReviewRequest.post()` arguments sent. The archive is returned as
+the response payload, and it should trigger a download prompt from
+the browser.
+
+This response's content is streamed, so there's no `Content-Length`
+header present (we can't tell the final size from the start). This
+might trigger spurious warnings about MIME types and document type
+mismatch in some browsers, but so far those are safe to ignore.
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* cases
+
+
+[[_post_expand_query_request]]
+=== Search for and return one or more documents
+....
+POST /cases/{case}/expand_query
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_expand_query_request_body,body>>
+|===
+
+[[_post_expand_query_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**doc_limit** +
+__optional__|The doc limit ES parameter|integer (int32)
+|**num_terms_limit** +
+__optional__|The max number of terms to send over|integer (int32)
+|**query_string** +
+__optional__|Query string to expand on|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_expandqueryresult,ExpandQueryResult>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_export_request]]
+=== Generates a XLSX workbook with document metadata using the same
+....
+POST /cases/{case}/export
+....
+
+
+==== Description
+`ReviewRequest.post()` arguments. The workbook data is returned as
+the response payload, and it should trigger a download prompt from
+the browser.
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_export_request_body,body>>
+|===
+
+[[_post_export_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**custodians** +
+__optional__|Filter search by custodians.|< string > array
+|**date_from** +
+__optional__|The earliest email date to filter on|string
+|**date_to** +
+__optional__|The latest email date to filter on|string
+|**max_score** +
+__optional__|The maximum score for filtering|number (float)
+|**min_score** +
+__optional__|The minimum score for filtering|number (float)
+|**model_ids** +
+__optional__|List of model ids to focus on|< integer (int32) > array
+|**page** +
+__optional__|The page of search results to return.|integer (int32)
+|**page_size** +
+__optional__|The number of results to paginate.|integer (int32)
+|**reviewers** +
+__optional__|List of reviewers to filter by|< string > array
+|**sort** +
+__optional__|The list of fields to sort by|< <<_cases_case_export_post_sort,sort>> > array
+|**tags** +
+__optional__||object
+|===
+
+[[_cases_case_export_post_sort]]
+**sort**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**sort_key** +
+__optional__|The field to sort by. i.e. `score`, `review_date`|string
+|**sort_type** +
+__optional__|The direction for sorting, i.e. `asc`|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_export_zipball_request]]
+=== Returns an object with a single key: `download_params`, which is a
+....
+POST /cases/{case}/export/zipball
+....
+
+
+==== Description
+mapping to be used as query string parameters for the
+`DownloadZipballRequest.get()` endpoint. These parameters contain the
+export filters, expiration and signature, so they must be used verbatim.
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_export_zipball_request_body,body>>
+|===
+
+[[_post_export_zipball_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**custodians** +
+__optional__|Filter search by custodians.|< string > array
+|**date_from** +
+__optional__|The earliest email date to filter on|string
+|**date_to** +
+__optional__|The latest email date to filter on|string
+|**max_score** +
+__optional__|The maximum score for filtering|number (float)
+|**min_score** +
+__optional__|The minimum score for filtering|number (float)
+|**model_ids** +
+__optional__|List of model ids to focus on|< integer (int32) > array
+|**page** +
+__optional__|The page of search results to return.|integer (int32)
+|**page_size** +
+__optional__|The number of results to paginate.|integer (int32)
+|**reviewers** +
+__optional__|List of reviewers to filter by|< string > array
+|**sort** +
+__optional__|The list of fields to sort by|< <<_cases_case_export_zipball_post_sort,sort>> > array
+|**tags** +
+__optional__||object
+|===
+
+[[_cases_case_export_zipball_post_sort]]
+**sort**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**sort_key** +
+__optional__|The field to sort by. i.e. `score`, `review_date`|string
+|**sort_type** +
+__optional__|The direction for sorting, i.e. `asc`|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_filter_aggregations]]
+=== Get the filter aggregations for a set of search parameters
+....
+POST /cases/{case}/filters
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_filter_aggregations_body,body>>
+|===
+
+[[_post_filter_aggregations_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**aggregations** +
+__optional__||< <<_cases_case_filters_post_aggregations,aggregations>> > array
+|**date_field** +
+__optional__|Name of the field to be used for date|string
+|**date_from** +
+__optional__|The start date for the search, should be in the form '%Y-%m-%d %H:%M:%S'|string
+|**date_to** +
+__optional__|The end date for the search, should be in the form '%Y-%m-%d %H:%M:%S'|string
+|**filters** +
+__optional__||< <<_cases_case_filters_post_filters,filters>> > array
+|**query_string** +
+__optional__|The query string to search|string
+|**tags** +
+__optional__||object
+|===
+
+[[_cases_case_filters_post_aggregations]]
+**aggregations**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**config** +
+__optional__|<<_cases_case_filters_post_aggregations_config,config>>
+|**field_name** +
+__optional__|string
+|===
+
+[[_cases_case_filters_post_aggregations_config]]
+**config**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**has_next_page** +
+__optional__|boolean
+|**page** +
+__required__|integer (int32)
+|**page_size** +
+__required__|integer (int32)
+|**search** +
+__required__|string
+|**sort** +
+__required__|string
+|**sort_direction** +
+__required__|string
+|===
+
+[[_cases_case_filters_post_filters]]
+**filters**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**field_name** +
+__optional__|string
+|**filters** +
+__optional__|< string > array
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_filteraggregationcounts,FilterAggregationCounts>> > array
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_flux_request]]
+=== Get flux metrics by case name and model ID
+....
+POST /cases/{case}/flux
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_flux_request_body,body>>
+|===
+
+[[_post_flux_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**model_ids** +
+__required__|List of one model id to return flux for.|< integer (int32) > array
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_fluxresponse,FluxResponse>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_import_tags]]
+=== Search for and return one or more documents
+....
+POST /cases/{case}/importtags
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_model_status]]
+=== Get training status by case name and model ID
+....
+GET /cases/{case}/models/{model_id}/status
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Path**|**model_id** +
+__required__|integer
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_modelstatusresponse,ModelStatusResponse>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_review_request]]
+=== Search for and return one or more documents
+....
+POST /cases/{case}/review
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_review_request_body,body>>
+|===
+
+[[_post_review_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**custodians** +
+__optional__|Filter search by custodians.|< string > array
+|**date_from** +
+__optional__|The earliest email date to filter on|string
+|**date_to** +
+__optional__|The latest email date to filter on|string
+|**max_score** +
+__optional__|The maximum score for filtering|number (float)
+|**min_score** +
+__optional__|The minimum score for filtering|number (float)
+|**model_ids** +
+__optional__|List of model ids to focus on|< integer (int32) > array
+|**page** +
+__optional__|The page of search results to return.|integer (int32)
+|**page_size** +
+__optional__|The number of results to paginate.|integer (int32)
+|**reviewers** +
+__optional__|List of reviewers to filter by|< string > array
+|**sort** +
+__optional__|The list of fields to sort by|< <<_cases_case_review_post_sort,sort>> > array
+|**tags** +
+__optional__||object
+|===
+
+[[_cases_case_review_post_sort]]
+**sort**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**sort_key** +
+__optional__|The field to sort by. i.e. `score`, `review_date`|string
+|**sort_type** +
+__optional__|The direction for sorting, i.e. `asc`|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_reviewresult,ReviewResult>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_review_analytics_request]]
+=== Search for and return one or more documents
+....
+POST /cases/{case}/review/analytics
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**case** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_review_analytics_request_body,body>>
+|===
+
+[[_post_review_analytics_request_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**model_ids** +
+__optional__|List of model ids to focus on|< integer (int32) > array
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|<<_reviewanalyticsresult,ReviewAnalyticsResult>>
+|===
+
+
+==== Tags
+
+* cases
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_models_query]]
+=== Get all models
+....
+GET /models
+....
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Request fulfilled, document follows|< <<_mlmodelresponse,MLModelResponse>> > array
+|===
+
+
+==== Tags
+
+* models
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_reset_workspace_query]]
+=== Reset the workspace to the current state
+....
+POST /state/reset
+....
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* state
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_urls_resource]]
+=== GET /urls
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* urls
+
+
+[[_post_fetch_users]]
+=== Creates a new user
+....
+POST /user
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Body**|**body** +
+__required__|<<_post_fetch_users_body,body>>
+|===
+
+[[_post_fetch_users_body]]
+**body**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**user** +
+__required__|<<_user_post_user,user>>
+|===
+
+[[_user_post_user]]
+**user**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**department** +
+__optional__|The department for the user.|string
+|**email** +
+__optional__|The email address for the user.|string (email)
+|**location** +
+__optional__|The location for the user.|string
+|**name** +
+__optional__|The name for the user.|string
+|**password** +
+__required__|The plaintext password for the user|string
+|**roles** +
+__optional__|The roles this user should have|object
+|**should_reset** +
+__optional__|Require password reset for this user|boolean
+|**title** +
+__optional__|The title for the user.|string
+|**username** +
+__required__|The unique username|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* user
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_fetch_users]]
+=== Fetches the list of users registered in the system
+....
+GET /user
+....
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* user
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_initialize_disco_admin]]
+=== Creates and assigns the DiscoCaseAdmin and DiscoCaseUser roles to all org admins for the
+....
+POST /user/admin/initialize
+....
+
+
+==== Description
+specified org. Creates the org if it does not already exist, and creates an org admin if
+one does not already exist.
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Body**|**body** +
+__required__|<<_post_initialize_disco_admin_body,body>>
+|===
+
+[[_post_initialize_disco_admin_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**org_admin_password** +
+__optional__|org admin password, only required when no org admins exist for the specified domain|string
+|**org_admin_username** +
+__optional__|org admin username, only required when no org admins exist for the specified domain|string
+|**org_description** +
+__optional__|org description, only required when an org with the specified domain does not exist|string
+|**org_domain** +
+__required__|org domain, e.g. "primer.ai"|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* user
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_reset_password]]
+=== Resets the password, given the matching user token
+....
+POST /user/password/reset
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Body**|**body** +
+__required__|<<_post_reset_password_body,body>>
+|===
+
+[[_post_reset_password_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**password** +
+__required__|The desired password for the user|string
+|**reset_token** +
+__required__|The token required to set the password|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* user
+
+
+[[_post_fetch_user]]
+=== Modifies the specified user and returns the updated user
+....
+POST /user/{user_key}
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**user_key** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_fetch_user_body,body>>
+|===
+
+[[_post_fetch_user_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**department** +
+__optional__|The department for the user.|string
+|**email** +
+__optional__|The email address for the user.|string (email)
+|**is_disabled** +
+__optional__|If true, prevents the user from logging in|boolean
+|**location** +
+__optional__|The location for the user.|string
+|**name** +
+__optional__|The name for the user.|string
+|**password** +
+__optional__|The password for the user.|string
+|**roles** +
+__optional__|The roles this user should have|object
+|**should_reset** +
+__optional__|If true, requires the user to set their password on next login|boolean
+|**title** +
+__optional__|The title for the user.|string
+|**username** +
+__optional__|The username for the user.|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* user
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_get_fetch_user]]
+=== Fetches the user for a specifc user key
+....
+GET /user/{user_key}
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**user_key** +
+__required__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* user
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+[[_post_set_password]]
+=== Resets the password, given the matching user token
+....
+POST /user/{user_key}/password
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2a,.^3a,.^4a"]
+|===
+|Type|Name|Schema
+|**Path**|**user_key** +
+__required__|string
+|**Body**|**body** +
+__required__|<<_post_set_password_body,body>>
+|===
+
+[[_post_set_password_body]]
+**body**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**force_reset** +
+__optional__|If the user should set a new password on next login|boolean
+|**password** +
+__required__|The desired password for the user|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2a,.^14a,.^4a"]
+|===
+|HTTP Code|Description|Schema
+|**200**|Success|No Content
+|===
+
+
+==== Tags
+
+* user
+
+
+==== Security
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Type|Name
+|**apiKey**|**<<_jwt,jwt>>**
+|===
+
+
+
+= API
+
+
+[[_overview]]
+== Overview
+
+=== Version information
+[%hardbreaks]
+__Version__ : 1.0
+
+
+=== URI scheme
+[%hardbreaks]
+__BasePath__ : /api
+
+
+=== Tags
+
+* auth : Control markings and user authentication for the system
+* cases : Main endpoint for disco UI
+* models : Endpoint for retrieving global models.
+* state : Controls for completely mutating the system state.
+* urls : Provide urls and other configuration for the frontend.
+* user : Retrieve and administer users
+
+
+=== Consumes
+
+* `application/json`
+
+
+=== Produces
+
+* `application/json`
+
+
+
+
+[[_definitions]]
+== Definitions
+
+[[_casedescription]]
+=== CaseDescription
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**confidence_goal** +
+__optional__|Confidence goal set by user in configuration|number (float)
+|**configured** +
+__optional__|Whether a the configured button has been clicked on case card|boolean
+|**date_created** +
+__optional__|date the case was created|string (date-time)
+|**date_modified** +
+__optional__|date the case was modified|string (date-time)
+|**display_name** +
+__optional__|Name of the case; displayed to user|string
+|**index_name** +
+__optional__|index name of the case|string
+|**loadfile_names** +
+__optional__|the loadfile filename of the case|string
+|**minimum_richness_size** +
+__optional__|Number of documents for the richness set|integer (int32)
+|**moe_goal** +
+__optional__|Margin of error goal set by user in configuration|number (float)
+|**name** +
+__optional__|name of the case|string
+|**tag_counts** +
+__optional__|The number of positive, negative, and neutral tags for each tag category|< <<_casedescription_tag_counts,tag_counts>> > array
+|**tags** +
+__optional__|A mapping of the tag_category to their tag_values and all needed information|< <<_casedescription_tags,tags>> > array
+|**total_documents** +
+__optional__|The total number of documents|integer (int32)
+|**url_name** +
+__optional__|The name to use when formatting a URL|string
+|**users** +
+__optional__|Users given access to the case|< string > array
+|===
+
+[[_casedescription_tag_counts]]
+**tag_counts**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**tag_category_id** +
+__optional__|The tag category id|integer (int32)
+|**tag_counts** +
+__optional__||<<_casedescription_tag_counts,tag_counts>>
+|===
+
+[[_casedescription_tag_counts]]
+**tag_counts**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**estimated_richness** +
+__optional__|The estimated richness for the category|number (float)
+|**number_negative** +
+__optional__|Total number of negative tags for the category.|integer (int32)
+|**number_neutral** +
+__optional__|Total number of neutral tags for the category.|integer (int32)
+|**number_positive** +
+__optional__|Total number of positive tags for the category.|integer (int32)
+|**tags_total** +
+__optional__|Total number of tags for the category.|integer (int32)
+|===
+
+[[_casedescription_tags]]
+**tags**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**creator** +
+__optional__|The user who created the tag|string
+|**date_created** +
+__optional__|Date the model was originally created|string (date-time)
+|**date_last_trained** +
+__optional__|Date the model was last trained|string (date-time)
+|**has_model** +
+__optional__|There is a model_meta associated with the category|boolean
+|**is_archived** +
+__optional__|Whether the model has been archived|boolean
+|**is_primary** +
+__optional__|Whether the model is the primary model|boolean
+|**is_shared** +
+__optional__|Whether the model is shared with the whole organization|boolean
+|**label** +
+__optional__|The tag_category.display_text|string
+|**model_id** +
+__optional__|The model id associated with the tag category|integer (int32)
+|**original_case_id** +
+__optional__|If the model used a baseline model, the case id of the original model|string
+|**original_model_id** +
+__optional__|If the model used a baseline model, the model id of the original model|integer (int32)
+|**tag_category_id** +
+__optional__|The tag_category.id|integer (int32)
+|**tag_values** +
+__optional__||< <<_casedescription_tag_values,tag_values>> > array
+|**training_strategy** +
+__required__|CAL or SAL training strategy|string
+|===
+
+[[_casedescription_tag_values]]
+**tag_values**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**category_importance** +
+__optional__|The tag_value.category_importance, Used for UI icons|integer (int32)
+|**id** +
+__optional__|The tag_value.id|integer (int32)
+|**is_positive_training** +
+__optional__|The tag_value.is_positive_training, None indicates neutral|boolean
+|**label** +
+__optional__|The tag_value.display_text|string
+|===
+
+
+[[_conceptcontextresponse]]
+=== ConceptContextResponse
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**label** +
+__optional__|The concept label.|string
+|**ngrams** +
+__optional__|Context for each label ngram.|< <<_conceptcontextresponse_ngrams,ngrams>> > array
+|===
+
+[[_conceptcontextresponse_ngrams]]
+**ngrams**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**mentions** +
+__optional__|Mentions for this ngram.|< <<_conceptcontextresponse_mentions,mentions>> > array
+|**ngram** +
+__optional__|The representative ngram.|string
+|===
+
+[[_conceptcontextresponse_mentions]]
+**mentions**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**context** +
+__optional__|Context sentence for this mention.|string
+|**spans** +
+__optional__|Character start/end spans of the ngram for this mention.|< <<_conceptcontextresponse_mentions_spans,spans>> > array
+|===
+
+[[_conceptcontextresponse_mentions_spans]]
+**spans**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**end** +
+__optional__|End index of ngram in mention.|integer (int32)
+|**start** +
+__optional__|Start index of ngram in mention.|integer (int32)
+|===
+
+
+[[_datascopeparameters]]
+=== DatascopeParameters
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**date_from** +
+__required__|Minimum date to filter by|string (date-time)
+|**date_to** +
+__required__|Maximal date to filter by|string (date-time)
+|**exclude_docs_with_no_dates** +
+__required__|Exclude documents with no date|boolean
+|**exclude_nonrep_exact_dups** +
+__required__|Exclude non-representative exact dups|boolean
+|**exclude_nonrep_near_dups** +
+__required__|Exclude non-representative near dups|boolean
+|**exclude_nonrep_super_threads** +
+__required__|Exclude non-representative noninclusive threads|boolean
+|**near_dup_threshold** +
+__required__|Threshold for near duplicates|number (float)
+|**show_excluded_docs_in_family_view** +
+__required__|Show excluded documents in the document family viewer|boolean
+|===
+
+
+[[_dateranges]]
+=== DateRanges
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**filtered_max_date** +
+__optional__|The latest created date for a document after filtering|string
+|**filtered_min_date** +
+__optional__|The earliest created date for a document after filtering|string
+|**global_max_date** +
+__optional__|The latest created date for the corpus|string
+|**global_min_date** +
+__optional__|The earliest created date for the corpus|string
+|===
+
+
+[[_document]]
+=== Document
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**attached_to** +
+__optional__|Details on the attachment parent.|<<_document_attached_to,attached_to>>
+|**attachment_count** +
+__optional__|The count of the attachments|string
+|**attachment_list** +
+__optional__|The list of attachments|string
+|**author** +
+__optional__|The author name.|string
+|**bcc_** +
+__optional__|The BCC names (or emails if null).|string
+|**bcc_email** +
+__optional__|The BCC emails.|string
+|**bcc_name** +
+__optional__|The BCC names.|string
+|**cc_** +
+__optional__|The CC names (or emails if null).|string
+|**cc_email** +
+__optional__|The CC emails.|string
+|**cc_name** +
+__optional__|The CC names.|string
+|**concept** +
+__optional__|The concept associated with the message.|string
+|**custodian** +
+__optional__|The custodian name|string
+|**date_created** +
+__optional__|Creation date|string
+|**date_modified** +
+__optional__|Last modified date|string
+|**date_parent_senton** +
+__optional__|Parent email's sent date|string
+|**date_senton** +
+__optional__|Sent date|string
+|**display_name** +
+__required__|The resolved display name for the doc.|string
+|**display_name_highlight** +
+__optional__|Highlighted copy of `display_name`.|string
+|**document_category** +
+__required__|The document category|string
+|**document_id** +
+__optional__|The doc_id|string
+|**document_type** +
+__optional__|The document type|string
+|**duplicate_docs** +
+__optional__|The list of exact duplicate docs.|< integer (int32) > array
+|**email_chains** +
+__optional__|The email parsed into chains|string
+|**file_extension** +
+__optional__|The file extension|string
+|**fileindex** +
+__required__|The fileindex for a document.|integer (int32)
+|**filepath** +
+__optional__|Original path to the file in the bucket.|string
+|**filepath_highlight** +
+__optional__|Highlighted copy of `filepath`.|string
+|**filesize** +
+__optional__|The file size|string
+|**from_** +
+__optional__|The FROM name (or email if null).|string
+|**from_email** +
+__optional__|The FROM email.|string
+|**from_email_highlight** +
+__optional__|from_email with highlighting.|string
+|**from_name** +
+__optional__|The FROM email name.|string
+|**from_name_highlight** +
+__optional__|from_email with highlighting.|string
+|**hyper_docs** +
+__optional__|The list of other superthread documents with the same hyperthread.|< integer (int32) > array
+|**image_concept** +
+__optional__|The image_concept associated with the message.|string
+|**is_truncated** +
+__optional__|Indicates if the source is too big and had to be clipped|boolean
+|**languages** +
+__optional__|The language|< string > array
+|**locations** +
+__optional__|Extracted locations.|< string > array
+|**media_annotations** +
+__optional__|Visual labels for media.|< string > array
+|**media_annotations_highlight** +
+__optional__|media_annotations with highlighting.|< string > array
+|**next_fileindex** +
+__optional__|The next fileindex.|integer (int32)
+|**prev_fileindex** +
+__optional__|The previous fileindex.|integer (int32)
+|**related_attachments** +
+__optional__||< <<_document_related_attachments,related_attachments>> > array
+|**resolved_date** +
+__optional__|The resolved date|string
+|**safe_search** +
+__optional__|Explicit content warnings.|< string > array
+|**search_score** +
+__optional__|The relevance score|number (float)
+|**similar_docs** +
+__optional__|The list of similar documents.|< integer (int32) > array
+|**subthread_docs** +
+__optional__|The list of subthread family docs.|< integer (int32) > array
+|**tags** +
+__optional__|List of tags.|< <<_document_tags,tags>> > array
+|**tika_status** +
+__optional__|Indicates if text extraction was successful. Only used for TIKA'ed files.|integer (int32)
+|**to_** +
+__optional__|The TO names (or emails if null).|string
+|**to_email** +
+__optional__|The TO emails.|string
+|**to_email_highlight** +
+__optional__|to_email with highlighting.|string
+|**to_name** +
+__optional__|The TO names.|string
+|**to_name_highlight** +
+__optional__|to_name with highlighting.|string
+|===
+
+[[_document_attached_to]]
+**attached_to**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**display_name** +
+__optional__|The display name of the parent doc|string
+|**document_category** +
+__optional__|The document category of the parent doc|string
+|**fileindex** +
+__optional__|The fileindex of the parent doc|integer (int32)
+|===
+
+[[_document_related_attachments]]
+**related_attachments**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**display_name** +
+__optional__|The filename of attachments|string
+|**display_name_highlight** +
+__optional__|Boolean indicating if body has highlight tags|boolean
+|**document_category** +
+__optional__|The document category of the attachment|string
+|**fileindex** +
+__optional__|The fileindex of the attachment|integer (int32)
+|===
+
+[[_document_tags]]
+**tags**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**is_positive_training** +
+__optional__|Indicator of whether a tag is positive (true), negative (false) or neutral (None)|boolean
+|**message_index** +
+__optional__|Message index for granular tags.|integer (int32)
+|**span_end** +
+__optional__|End index of span for granular tags.|integer (int32)
+|**span_start** +
+__optional__|Start index of span for granular tags.|integer (int32)
+|**tag_category_id** +
+__optional__|The tag category|integer (int32)
+|**tag_category_label** +
+__optional__|UI tag category display text|string
+|**tag_id** +
+__optional__|The tag id|integer (int32)
+|**tag_label** +
+__optional__|UI tag display text|string
+|===
+
+
+[[_documentresult]]
+=== DocumentResult
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**all_results** +
+__required__|The total number of results|integer (int32)
+|**documents** +
+__optional__||< <<_documentresult_documents,documents>> > array
+|**page** +
+__optional__|The page of search results returned.|integer (int32)
+|**page_size** +
+__optional__|The number of results paginated.|integer (int32)
+|**query_id** +
+__optional__|The UUID of the query returned; new for a new query, prior existing for a paginated request.|string
+|**valid** +
+__optional__|Whether or not the query was valid|boolean
+|===
+
+[[_documentresult_documents]]
+**documents**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**attached_to** +
+__optional__|Details on the attachment parent.|<<_documentresult_attached_to,attached_to>>
+|**attachment_count** +
+__optional__|The count of the attachments|string
+|**attachment_list** +
+__optional__|The list of attachments|string
+|**author** +
+__optional__|The author name.|string
+|**bcc_** +
+__optional__|The BCC names (or emails if null).|string
+|**bcc_email** +
+__optional__|The BCC emails.|string
+|**bcc_name** +
+__optional__|The BCC names.|string
+|**cc_** +
+__optional__|The CC names (or emails if null).|string
+|**cc_email** +
+__optional__|The CC emails.|string
+|**cc_name** +
+__optional__|The CC names.|string
+|**concept** +
+__optional__|The concept associated with the message.|string
+|**custodian** +
+__optional__|The custodian name|string
+|**date_created** +
+__optional__|Creation date|string
+|**date_modified** +
+__optional__|Last modified date|string
+|**date_parent_senton** +
+__optional__|Parent email's sent date|string
+|**date_senton** +
+__optional__|Sent date|string
+|**display_name** +
+__required__|The resolved display name for the doc.|string
+|**display_name_highlight** +
+__optional__|Highlighted copy of `display_name`.|string
+|**document_category** +
+__required__|The document category|string
+|**document_id** +
+__optional__|The doc_id|string
+|**document_type** +
+__optional__|The document type|string
+|**duplicate_docs** +
+__optional__|The list of exact duplicate docs.|< integer (int32) > array
+|**email_chains** +
+__optional__|The email parsed into chains|string
+|**file_extension** +
+__optional__|The file extension|string
+|**fileindex** +
+__required__|The fileindex for a document.|integer (int32)
+|**filepath** +
+__optional__|Original path to the file in the bucket.|string
+|**filepath_highlight** +
+__optional__|Highlighted copy of `filepath`.|string
+|**filesize** +
+__optional__|The file size|string
+|**from_** +
+__optional__|The FROM name (or email if null).|string
+|**from_email** +
+__optional__|The FROM email.|string
+|**from_email_highlight** +
+__optional__|from_email with highlighting.|string
+|**from_name** +
+__optional__|The FROM email name.|string
+|**from_name_highlight** +
+__optional__|from_email with highlighting.|string
+|**hyper_docs** +
+__optional__|The list of other superthread documents with the same hyperthread.|< integer (int32) > array
+|**image_concept** +
+__optional__|The image_concept associated with the message.|string
+|**is_truncated** +
+__optional__|Indicates if the source is too big and had to be clipped|boolean
+|**languages** +
+__optional__|The language|< string > array
+|**locations** +
+__optional__|Extracted locations.|< string > array
+|**media_annotations** +
+__optional__|Visual labels for media.|< string > array
+|**media_annotations_highlight** +
+__optional__|media_annotations with highlighting.|< string > array
+|**next_fileindex** +
+__optional__|The next fileindex.|integer (int32)
+|**prev_fileindex** +
+__optional__|The previous fileindex.|integer (int32)
+|**related_attachments** +
+__optional__||< <<_documentresult_related_attachments,related_attachments>> > array
+|**resolved_date** +
+__optional__|The resolved date|string
+|**safe_search** +
+__optional__|Explicit content warnings.|< string > array
+|**search_score** +
+__optional__|The relevance score|number (float)
+|**similar_docs** +
+__optional__|The list of similar documents.|< integer (int32) > array
+|**subthread_docs** +
+__optional__|The list of subthread family docs.|< integer (int32) > array
+|**tags** +
+__optional__|List of tags.|< <<_documentresult_tags,tags>> > array
+|**tika_status** +
+__optional__|Indicates if text extraction was successful. Only used for TIKA'ed files.|integer (int32)
+|**to_** +
+__optional__|The TO names (or emails if null).|string
+|**to_email** +
+__optional__|The TO emails.|string
+|**to_email_highlight** +
+__optional__|to_email with highlighting.|string
+|**to_name** +
+__optional__|The TO names.|string
+|**to_name_highlight** +
+__optional__|to_name with highlighting.|string
+|===
+
+[[_documentresult_attached_to]]
+**attached_to**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**display_name** +
+__optional__|The display name of the parent doc|string
+|**document_category** +
+__optional__|The document category of the parent doc|string
+|**fileindex** +
+__optional__|The fileindex of the parent doc|integer (int32)
+|===
+
+[[_documentresult_related_attachments]]
+**related_attachments**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**display_name** +
+__optional__|The filename of attachments|string
+|**display_name_highlight** +
+__optional__|Boolean indicating if body has highlight tags|boolean
+|**document_category** +
+__optional__|The document category of the attachment|string
+|**fileindex** +
+__optional__|The fileindex of the attachment|integer (int32)
+|===
+
+[[_documentresult_tags]]
+**tags**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**is_positive_training** +
+__optional__|Indicator of whether a tag is positive (true), negative (false) or neutral (None)|boolean
+|**message_index** +
+__optional__|Message index for granular tags.|integer (int32)
+|**span_end** +
+__optional__|End index of span for granular tags.|integer (int32)
+|**span_start** +
+__optional__|Start index of span for granular tags.|integer (int32)
+|**tag_category_id** +
+__optional__|The tag category|integer (int32)
+|**tag_category_label** +
+__optional__|UI tag category display text|string
+|**tag_id** +
+__optional__|The tag id|integer (int32)
+|**tag_label** +
+__optional__|UI tag display text|string
+|===
+
+
+[[_downloadurls]]
+=== DownloadURLs
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**document_url** +
+__optional__|Public download link to original file|string
+|**fileindex** +
+__optional__|The unique primary key integer index for a loadfile entry|integer (int32)
+|**preview_url** +
+__optional__|Public download link to preview file|string
+|**text_url** +
+__optional__|Public download link to extracted text file|string
+|===
+
+
+[[_expandqueryresult]]
+=== ExpandQueryResult
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**expanded_terms** +
+__optional__|Expanded query list of words|< string > array
+|===
+
+
+[[_filteraggregationcounts]]
+=== FilterAggregationCounts
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**config** +
+__required__||<<_filteraggregationcounts_config,config>>
+|**counts** +
+__required__||< <<_filteraggregationcounts_counts,counts>> > array
+|**field_name** +
+__required__|The field to return|string
+|**is_num_buckets_lower_bound** +
+__required__|If true, the actual number of buckets is higher than the estimate|boolean
+|**num_buckets_estimate** +
+__required__|An estimate of the number of buckets|integer (int32)
+|===
+
+[[_filteraggregationcounts_config]]
+**config**
+
+[options="header", cols=".^3a,.^4a"]
+|===
+|Name|Schema
+|**has_next_page** +
+__optional__|boolean
+|**page** +
+__required__|integer (int32)
+|**page_size** +
+__required__|integer (int32)
+|**search** +
+__required__|string
+|**sort** +
+__required__|string
+|**sort_direction** +
+__required__|string
+|===
+
+[[_filteraggregationcounts_counts]]
+**counts**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**count** +
+__required__|The number of docs related to this bucket|integer (int32)
+|**is_count_lower_bound** +
+__required__|If true, the count is a lower bound rather than an exact count|boolean
+|**key** +
+__required__|The field the aggregation is based on.|string
+|===
+
+
+[[_fluxresponse]]
+=== FluxResponse
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**depth_for_recall** +
+__optional__|Dummy field for x-axis for UI.|< integer (int32) > array
+|**shuffle_percent_metric** +
+__optional__|Flux metric.|< number (float) > array
+|===
+
+
+[[_highlightcategory]]
+=== HighlightCategory
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**category_id** +
+__optional__|Category Id for the highlight category.|integer (int32)
+|**category_name** +
+__optional__|Category name for the highlight category.|string
+|**color** +
+__optional__|Hex 6 color for the highlight category.|string
+|**terms** +
+__optional__|List of terms to be highlighted for the category.|< string > array
+|===
+
+
+[[_mlmodelresponse]]
+=== MLModelResponse
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**case_id** +
+__optional__|The case name with which the model is associated|string
+|**creator** +
+__optional__|User who created the model|string
+|**date_created** +
+__optional__|Date model was created|string (date-time)
+|**date_last_trained** +
+__optional__|Date model was last trained|string (date-time)
+|**is_shared** +
+__optional__|Whether the model is shared with the whole organization|boolean
+|**label** +
+__optional__|The model / tag category name|string
+|**model_id** +
+__optional__|The model id stored on the case database.model_meta|integer (int32)
+|===
+
+
+[[_modelstatusresponse]]
+=== ModelStatusResponse
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**estimated_richness** +
+__required__|Estimated richness.|integer (int32)
+|**minimum_richness_size** +
+__required__|Size of richness set.|integer (int32)
+|**num_negative_train_tags** +
+__required__|Number of negative training tags.|integer (int32)
+|**num_negative_train_tags_cold_start** +
+__required__|Number of negative tags required for model cold start.|integer (int32)
+|**num_new_train_tags** +
+__required__|Number of training tags since last model training.|integer (int32)
+|**num_positive_train_tags** +
+__required__|Number of positive training tags.|integer (int32)
+|**num_positive_train_tags_cold_start** +
+__required__|Number of positive tags required for model cold start.|integer (int32)
+|**num_richness_tags** +
+__required__|Number of richness set tags.|integer (int32)
+|**num_train_tags** +
+__required__|Total number of training tags.|integer (int32)
+|**num_train_tags_warm_start** +
+__required__|Number of tags required for model warm start.|integer (int32)
+|**num_training_cycles** +
+__required__|Number of model training cycles completed.|integer (int32)
+|**training_in_progress** +
+__required__|True iff model training is in progress.|boolean
+|===
+
+
+[[_previewresult]]
+=== PreviewResult
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**document_preview_id** +
+__required__|Preview URL|string
+|**fileindex** +
+__required__|The unique primary key integer index for a loadfile entry|integer (int32)
+|===
+
+
+[[_reviewanalyticsresult]]
+=== ReviewAnalyticsResult
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**all_scores** +
+__optional__|Percentile to count in bucket mapping for all scores|object
+|**negative** +
+__optional__|Percentile to count in bucket mapping for not responsive documents|object
+|**positive** +
+__optional__|Percentile to count in bucket mapping for responsive documents|object
+|===
+
+
+[[_reviewresult]]
+=== ReviewResult
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**all_results** +
+__required__|The total number of results|integer (int32)
+|**custodians** +
+__optional__|List of custodians that are in the filter.|<<_reviewresult_custodians,custodians>>
+|**documents** +
+__optional__||< <<_reviewresult_documents,documents>> > array
+|**page** +
+__optional__|The page of search results returned.|integer (int32)
+|**page_size** +
+__optional__|The number of results paginated.|integer (int32)
+|**query_id** +
+__optional__|The UUID of the query returned; new for a new query, prior existing for a paginated request.|string
+|**reviewers** +
+__optional__|List of reviewers that are in the filter.|<<_reviewresult_reviewers,reviewers>>
+|**scores** +
+__optional__|List of document score percentiles and counts|object
+|**valid** +
+__optional__|Whether or not the query was valid|boolean
+|===
+
+[[_reviewresult_custodians]]
+**custodians**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**count** +
+__required__|The number of docs related to this bucket|integer (int32)
+|**is_count_lower_bound** +
+__required__|If true, the count is a lower bound rather than an exact count|boolean
+|**key** +
+__required__|The field the aggregation is based on.|string
+|===
+
+[[_reviewresult_documents]]
+**documents**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**custodian** +
+__optional__|The custodian of the email|string
+|**display_name** +
+__optional__|The display name|string
+|**document_category** +
+__optional__|The document category|string
+|**fileindex** +
+__required__|The fileindex for a document.|integer (int32)
+|**resolved_date** +
+__optional__|The resolved date for the document.|string
+|**review_date** +
+__optional__|If the email had been reviewed, the date it was done|string
+|**reviewer** +
+__optional__|If the email had been reviewed, the reviewer|string
+|**score** +
+__optional__|The score for latest model|number (float)
+|**tags** +
+__optional__|List of tags.|< <<_reviewresult_tags,tags>> > array
+|===
+
+[[_reviewresult_tags]]
+**tags**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**is_positive_training** +
+__optional__|Indicator of whether a tag is positive (true), negative (false) or neutral (None)|boolean
+|**message_index** +
+__optional__|Message index for granular tags.|integer (int32)
+|**span_end** +
+__optional__|End index of span for granular tags.|integer (int32)
+|**span_start** +
+__optional__|Start index of span for granular tags.|integer (int32)
+|**tag_category_id** +
+__optional__|The tag category|integer (int32)
+|**tag_category_label** +
+__optional__|UI tag category display text|string
+|**tag_id** +
+__optional__|The tag id|integer (int32)
+|**tag_label** +
+__optional__|UI tag display text|string
+|===
+
+[[_reviewresult_reviewers]]
+**reviewers**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**count** +
+__required__|The number of docs related to this bucket|integer (int32)
+|**is_count_lower_bound** +
+__required__|If true, the count is a lower bound rather than an exact count|boolean
+|**key** +
+__required__|The field the aggregation is based on.|string
+|===
+
+
+[[_searchresults]]
+=== SearchResults
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**all_results** +
+__required__|The total number of results|integer (int32)
+|**documents** +
+__optional__||< <<_searchresults_documents,documents>> > array
+|**page** +
+__optional__|The page of search results returned.|integer (int32)
+|**page_size** +
+__optional__|The number of results paginated.|integer (int32)
+|**query_id** +
+__optional__|The UUID of the query returned; new for a new query, prior existing for a paginated request.|string
+|**valid** +
+__optional__|Whether or not the query was valid|boolean
+|===
+
+[[_searchresults_documents]]
+**documents**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**attached_to** +
+__optional__|Details on the attachment parent.|<<_searchresults_attached_to,attached_to>>
+|**attachment_count** +
+__optional__|The count of the attachments|integer (int32)
+|**author** +
+__optional__|The author name.|string
+|**bcc_** +
+__optional__|BCC names (or emails if null), `;` separated|string
+|**bcc_email** +
+__optional__|BCC emails, `;` separated|string
+|**bcc_name** +
+__optional__|BCC names, `;` separated|string
+|**cc_** +
+__optional__|CC names (or emails if null), `;` separated|string
+|**cc_email** +
+__optional__|CC emails, `;` separated|string
+|**cc_name** +
+__optional__|CC names, `;` separated|string
+|**content** +
+__optional__|First 400 characters of the first email in the email chain|string
+|**custodian** +
+__optional__|The custodian name, `;` separated|string
+|**display_name** +
+__required__|The resolved display name for the doc.|string
+|**display_name_highlight** +
+__required__|The display name with highlighting.|string
+|**document_category** +
+__required__|The document category|string
+|**file_extension** +
+__optional__|The file extension|string
+|**fileindex** +
+__required__|The fileindex for a document.|integer (int32)
+|**from_** +
+__optional__|FROM name (or email if null).|string
+|**from_email** +
+__optional__|FROM email.|string
+|**from_email_highlight** +
+__optional__|from_email highlighted|string
+|**from_name** +
+__optional__|FROM name|string
+|**from_name_highlight** +
+__optional__|from_name highlighted|string
+|**image_concept** +
+__optional__|The image_concept associated with the message|string
+|**is_content_highlight** +
+__optional__|Content body has highlight tags|boolean
+|**media_annotations** +
+__optional__|Visual labels for media.|< string > array
+|**resolved_date** +
+__optional__|The resolved date.|string
+|**tags** +
+__optional__|List of tags.|< <<_searchresults_tags,tags>> > array
+|**to_** +
+__optional__|TO names (or emails if null), `;` separated|string
+|**to_email** +
+__optional__|TO emails, `;` separated|string
+|**to_email_highlight** +
+__optional__|to_email highlighted|string
+|**to_name** +
+__optional__|TO names, `;` separated|string
+|**to_name_highlight** +
+__optional__|to_name highlighted|string
+|===
+
+[[_searchresults_attached_to]]
+**attached_to**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**display_name** +
+__optional__|The display name of the parent doc|string
+|**document_category** +
+__optional__|The document category of the parent doc|string
+|**fileindex** +
+__optional__|The fileindex of the parent doc|integer (int32)
+|===
+
+[[_searchresults_tags]]
+**tags**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**is_positive_training** +
+__optional__|Indicator of whether a tag is positive (true), negative (false) or neutral (None)|boolean
+|**message_index** +
+__optional__|Message index for granular tags.|integer (int32)
+|**span_end** +
+__optional__|End index of span for granular tags.|integer (int32)
+|**span_start** +
+__optional__|Start index of span for granular tags.|integer (int32)
+|**tag_category_id** +
+__optional__|The tag category|integer (int32)
+|**tag_category_label** +
+__optional__|UI tag category display text|string
+|**tag_id** +
+__optional__|The tag id|integer (int32)
+|**tag_label** +
+__optional__|UI tag display text|string
+|===
+
+
+[[_tagresponse]]
+=== TagResponse
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**review_date** +
+__required__|Datetime of the tag|string (date-time)
+|**reviewer** +
+__required__|Name of the reviewer who issued the tag request|string
+|**tag_counts** +
+__optional__|The number of positive, negative, and neutral tags for each tag category|< <<_tagresponse_tag_counts,tag_counts>> > array
+|===
+
+[[_tagresponse_tag_counts]]
+**tag_counts**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**tag_category_id** +
+__optional__|The tag category id|integer (int32)
+|**tag_counts** +
+__optional__||<<_tagresponse_tag_counts,tag_counts>>
+|===
+
+[[_tagresponse_tag_counts]]
+**tag_counts**
+
+[options="header", cols=".^3a,.^11a,.^4a"]
+|===
+|Name|Description|Schema
+|**estimated_richness** +
+__optional__|The estimated richness for the category|number (float)
+|**number_negative** +
+__optional__|Total number of negative tags for the category.|integer (int32)
+|**number_neutral** +
+__optional__|Total number of neutral tags for the category.|integer (int32)
+|**number_positive** +
+__optional__|Total number of positive tags for the category.|integer (int32)
+|**tags_total** +
+__optional__|Total number of tags for the category.|integer (int32)
+|===
+
+
+
