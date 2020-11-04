@@ -2,6 +2,8 @@
 # use this: 1LBDSQTJN7LADJRRb8AQNjEj6uKBrihcS9 as a test wallet (from librechan)
 # author: James Campbell
 # date: 10 August 2016
+# date updated: 4 November 2020 
+# last change: added ability to pass wallet hash in as argument to skip input
 # what: look up current balance for any bitcoin wallet
 clear
 echo ""
@@ -16,8 +18,12 @@ echo "     ----- uses https://blockchain.info -----   ";
 echo "     PGP FINGERPRINT: 68FD DA56 B687 64FF 56CA 74A6 AAF8 A86B F0DA 9511";
 echo ""
 echo ""
-printf "     Wallet to check ----:> "
-read -r bitwallet
+if [ $# -eq 0 ]; then
+    printf "     Wallet to check ----:> "
+    read -r bitwallet
+else
+bitwallet=$1
+fi
 echo "     You entered: $bitwallet"
 curl --silent "https://blockchain.info/address/$bitwallet?format=json" > balance.txt &
 pid=$!
@@ -38,7 +44,8 @@ done
 clear
 bitbalance=$(cat balance.txt | grep "balance" | sed 's/,$//' | sed 's/.*://')
 bitbalancefix=$(bc -l <<< "$bitbalance/100000000")
-printf "     Balance for Wallet $bitwallet is:"
-printf "%.6f", "$bitbalancefix"
+printf "     Balance for Wallet $bitwallet is: "
+printf "%.6f" $bitbalancefix
 echo ""
 echo ""
+rm -rf balance.txt
