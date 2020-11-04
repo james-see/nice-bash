@@ -48,4 +48,5 @@ printf "     Balance for Wallet $bitwallet is: "
 printf "%.6f" $bitbalancefix
 echo ""
 echo ""
+# clean up time
 rm -rf balance.txt
