@@ -21,14 +21,13 @@ echo """
 """;
 echo -e "\033[0;32m[*]\033[0m checking and installing corelocationcli via homebrew as necessary"
 sleep 2;
-if brew cask ls --versions corelocationcli > /dev/null; then
+if brew ls --versions corelocationcli > /dev/null; then
   # The package is installed
   echo -e "\033[0;34m[*]\033[0m corelocationcli already installed, skipping..."
   sleep 2
 else
   # The package is not installed
-  brew tap homebrew/cask # make sure cask installed
-  brew cask install corelocationcli
+  brew install corelocationcli --cask
 fi
 ./CoreLocationCLI -json > location.log
 echo "," >> location.log
